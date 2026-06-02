@@ -13,6 +13,14 @@ def send(ser, cmd: str) -> None:
     log(f"[CMD] -> {cmd}")
 
 
+def send_once(ser, ms: dict, cmd: str) -> None:
+    """Hareket komutunu sadece değişince gönder. STOP/PUMP için send() kullan."""
+    if ms.get("last_cmd") == cmd:
+        return
+    send(ser, cmd)
+    ms["last_cmd"] = cmd
+
+
 def read_arduino(ser, ms: dict) -> None:
     """
     Serial buffer'ı non-blocking boşalt.

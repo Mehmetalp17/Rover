@@ -14,7 +14,7 @@ from .config import (
     TURN_370_S, TURN_90_S, TURN_180_S, REVERSE_S,
     SPEED_CRUISE, SPEED_TURN, SPEED_REVERSE, SPEED_APPROACH,
 )
-from .serial_bridge import send
+from .serial_bridge import send, send_once
 
 # ---- Üst mod -----------------------------------------------------------------------
 MODE_ROAM = "ROAM"
@@ -49,6 +49,8 @@ def initial_state(now: float) -> dict:
         "sonar_C": 9999,
         "sonar_R": 9999,
         "flame":   1023,
+        # son gönderilen hareket komutu (send_once için)
+        "last_cmd": "",
     }
 
 
@@ -88,13 +90,13 @@ def fire_mission(ser, ms: dict, tracks: dict, now: float, frame_width: int) -> N
             return
         err = fire_cx - IMG_CENTER_PX
         if abs(err) <= AIM_DEADBAND_PX:
-            send(ser, f"FORWARD,{SPEED_APPROACH}")
+            send_once(ser, ms, f"FORWARD,{SPEED_APPROACH}")
             ms["fire_state"] = M_APPROACHING
             log("[MISSION] AIMING → APPROACHING")
         elif err > 0:
-            send(ser, f"TURN_RIGHT,{SPEED_APPROACH}")
+            send_once(ser, ms, f"TURN_RIGHT,{SPEED_APPROACH}")
         else:
-            send(ser, f"TURN_LEFT,{SPEED_APPROACH}")
+            send_once(ser, ms, f"TURN_LEFT,{SPEED_APPROACH}")
 
     elif state == M_APPROACHING:
         if fire_cx is None:
@@ -115,7 +117,7 @@ def fire_mission(ser, ms: dict, tracks: dict, now: float, frame_width: int) -> N
             ms["flame_clear_t"] = None
             log(f"[MISSION] APPROACHING → SPRAYING dist={ms['sonar_C']}cm")
         else:
-            send(ser, f"FORWARD,{SPEED_APPROACH}")
+            send_once(ser, ms, f"FORWARD,{SPEED_APPROACH}")
 
     elif state == M_SPRAYING:
         if ms["flame"] < FLAME_THRESHOLD_PI:
@@ -148,7 +150,7 @@ def free_roam(ser, ms: dict, now: float) -> None:
         ms["roam_rev_done"] = False
 
     if state == R_STRAIGHT:
-        send(ser, f"FORWARD,{SPEED_CRUISE}")
+        send_once(ser, ms, f"FORWARD,{SPEED_CRUISE}")
         if C < WARNING_ZONE_CM:
             if   R >= WARNING_ZONE_CM: enter(R_TURN_R90)
             elif L >= WARNING_ZONE_CM: enter(R_TURN_L90)
@@ -157,27 +159,27 @@ def free_roam(ser, ms: dict, now: float) -> None:
             enter(R_TURN_370)
 
     elif state == R_TURN_370:
-        send(ser, f"TURN_RIGHT,{SPEED_TURN}")
+        send_once(ser, ms, f"TURN_RIGHT,{SPEED_TURN}")
         if elapsed >= TURN_370_S:
             enter(R_STRAIGHT)
 
     elif state == R_TURN_R90:
-        send(ser, f"TURN_RIGHT,{SPEED_TURN}")
+        send_once(ser, ms, f"TURN_RIGHT,{SPEED_TURN}")
         if elapsed >= TURN_90_S:
             enter(R_STRAIGHT)
 
     elif state == R_TURN_L90:
-        send(ser, f"TURN_LEFT,{SPEED_TURN}")
+        send_once(ser, ms, f"TURN_LEFT,{SPEED_TURN}")
         if elapsed >= TURN_90_S:
             enter(R_STRAIGHT)
 
     elif state == R_TURN_180:
         if not ms["roam_rev_done"]:
-            send(ser, f"REVERSE,{SPEED_REVERSE}")
+            send_once(ser, ms, f"REVERSE,{SPEED_REVERSE}")
             if elapsed >= REVERSE_S:
                 ms["roam_rev_done"] = True
                 ms["roam_ts"]       = now      # geri bitti, dönüş sayacı başlat
         else:
-            send(ser, f"TURN_LEFT,{SPEED_TURN}")
+            send_once(ser, ms, f"TURN_LEFT,{SPEED_TURN}")
             if elapsed >= TURN_180_S:
                 enter(R_STRAIGHT)
