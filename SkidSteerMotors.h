@@ -15,7 +15,7 @@ public:
   void pointTurnLeft(uint8_t s = SPEED_TURN);
   void pointTurnRight(uint8_t s = SPEED_TURN);
 private:
-  void setSide(uint8_t inA, uint8_t inB, uint8_t en, int speed);
+  void setSide(uint8_t lpwm, uint8_t rpwm, int speed);
 };
 
 #endif

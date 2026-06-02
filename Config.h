@@ -3,25 +3,29 @@
 
 #include <Arduino.h>
 
-// ---- L298N Motor Sürücü Pinleri ----------------------------------------------------
-constexpr uint8_t PIN_LEFT_IN1  = 2;
-constexpr uint8_t PIN_LEFT_IN2  = 4;
-constexpr uint8_t PIN_LEFT_ENA  = 5;   // PWM
-constexpr uint8_t PIN_RIGHT_IN3 = 7;
-constexpr uint8_t PIN_RIGHT_IN4 = 8;
-constexpr uint8_t PIN_RIGHT_ENB = 6;   // PWM
+// ---- BTS7960 Motor Sürücü Pinleri --------------------------------------------------
+// Sol sürücü
+constexpr uint8_t PIN_LEFT_LPWM = 6;   // PWM ileri
+constexpr uint8_t PIN_LEFT_RPWM = 5;   // PWM geri
+constexpr uint8_t PIN_LEFT_LEN  = 9;   // sol enable
+constexpr uint8_t PIN_LEFT_REN  = 8;   // sağ enable
+// Sağ sürücü
+constexpr uint8_t PIN_RIGHT_LPWM = 11;  // PWM ileri
+constexpr uint8_t PIN_RIGHT_RPWM = 10;  // PWM geri
+constexpr uint8_t PIN_RIGHT_LEN  = 13;  // sol enable
+constexpr uint8_t PIN_RIGHT_REN  = 12;  // sağ enable
 
 // ---- HC-SR04 Ultrasonik Pinleri ----------------------------------------------------
-constexpr uint8_t PIN_TRIG_LEFT   = 9;
-constexpr uint8_t PIN_ECHO_LEFT   = 10;
-constexpr uint8_t PIN_TRIG_CENTER = 11;
-constexpr uint8_t PIN_ECHO_CENTER = 12;
-constexpr uint8_t PIN_TRIG_RIGHT  = A0;
-constexpr uint8_t PIN_ECHO_RIGHT  = A1;
+constexpr uint8_t PIN_TRIG_LEFT   = A5;
+constexpr uint8_t PIN_ECHO_LEFT   = A4;
+constexpr uint8_t PIN_TRIG_CENTER = 2;
+constexpr uint8_t PIN_ECHO_CENTER = 4;
+constexpr uint8_t PIN_TRIG_RIGHT  = A1;
+constexpr uint8_t PIN_ECHO_RIGHT  = A0;
 
 // ---- Yangın Misyonu Donanımı -------------------------------------------------------
-constexpr uint8_t PIN_WATER_PUMP = 3;   // R385 tetik (MOSFET/röle gate)
-constexpr uint8_t PIN_FLAME_AO   = A2;  // analog flame sensor (AO)
+constexpr uint8_t PIN_WATER_PUMP = 7;   // R385 tetik (MOSFET/röle gate)
+constexpr uint8_t PIN_FLAME_AO   = A2;  // analog flame sensor (A0 sonarla çakışırdı)
 // D0/D1 → Pi serial (boş bırak)
 
 // ---- Sonar Sınırı (cm) -------------------------------------------------------------
