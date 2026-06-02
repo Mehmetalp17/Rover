@@ -46,9 +46,8 @@ constexpr uint8_t       SERIAL_BUF_LEN = 32;
 //               "STOP" | "PUMP_ON" | "PUMP_OFF" | "ROAM"
 // Arduino → Pi: "SONAR,<L>,<C>,<R>\n"  |  "FLAME,<raw>\n"
 
-// ---- Sensör Raporlama & Slave Timeout (ms) -----------------------------------------
-constexpr unsigned long SONAR_REPORT_MS  = 100UL;   // Arduino → Pi sonar aralığı
-constexpr unsigned long FLAME_REPORT_MS  = 200UL;   // Arduino → Pi flame aralığı
-constexpr unsigned long SLAVE_TIMEOUT_MS = 1000UL;  // Pi sessizleşirse → STOP
+// ---- Sensör Raporlama (ms) ---------------------------------------------------------
+constexpr unsigned long SONAR_REPORT_MS = 100UL;   // Arduino → Pi sonar aralığı
+constexpr unsigned long FLAME_REPORT_MS = 200UL;   // Arduino → Pi flame aralığı
 
 #endif // CONFIG_H

@@ -18,9 +18,8 @@ public:
     void update(PiCommand& cmd);
 
 private:
-    SkidSteerMotors* motors_   = nullptr;
-    WaterPump*       pump_     = nullptr;
-    unsigned long    tLastCmd_ = 0;
+    SkidSteerMotors* motors_ = nullptr;
+    WaterPump*       pump_   = nullptr;
 };
 
 #endif

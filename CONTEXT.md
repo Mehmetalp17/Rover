@@ -172,7 +172,7 @@ Boolean on a centroid track. True when fire has been continuously visible for `a
 | `TURN_180_S` | pi/config.py | 1.2s | 180° turn portion — calibrate per chassis |
 | `REVERSE_S` | pi/config.py | 0.7s | Reverse portion of TURN_180_BACK |
 | `SPEED_APPROACH` | pi/config.py | 160 PWM | Must be low enough that 100ms pulse < AIM_DEADBAND_PX |
-| `SLAVE_TIMEOUT_MS` | Config.h | 1000ms | Arduino auto-stop if Pi silent |
+| `SLAVE_TIMEOUT_MS` | — | removed | Timeout deferred; Arduino holds last command |
 | `SONAR_REPORT_MS` | Config.h | 100ms | Arduino → Pi sonar rate |
 | `FLAME_REPORT_MS` | Config.h | 200ms | Arduino → Pi flame rate |
 | `alert_hold` | fire_smoke_alert.py | 2.0s | YOLO continuous detection before alert |
@@ -198,7 +198,7 @@ After fire extinguished, robot enters DRIVE_STRAIGHT immediately (no reverse). R
 AIMING uses full SPEED_APPROACH regardless of error magnitude. No proportional control. Risk: oscillation if SPEED_APPROACH too high. Mitigation: calibrate SPEED_APPROACH low enough that 100ms pulse stays within AIM_DEADBAND_PX.
 
 ### Arduino slave timeout
-1000ms. Pi sends commands at 10 Hz (100ms interval). Timeout = 10x command interval — gives comfortable margin while catching Pi crash/disconnect quickly.
+Removed. Arduino holds last PWM state until new command arrives. Pi does not need to send commands continuously — only on state change (via send_once). Timeout safety deferred.
 
 ---
 
