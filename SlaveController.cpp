@@ -1,14 +1,14 @@
-// ===== FreeRoamFSM.cpp =====
-#include "FreeRoamFSM.h"
+// ===== SlaveController.cpp =====
+#include "SlaveController.h"
 
-void FreeRoamFSM::begin(SkidSteerMotors* m, WaterPump* p) {
+void SlaveController::begin(SkidSteerMotors* m, WaterPump* p) {
     motors_   = m;
     pump_     = p;
     tLastCmd_ = millis();
     motors_->stop();
 }
 
-void FreeRoamFSM::update(PiCommand& cmd) {
+void SlaveController::update(PiCommand& cmd) {
     if (cmd.fresh) {
         tLastCmd_ = cmd.lastCmdMs;
         switch (cmd.type) {

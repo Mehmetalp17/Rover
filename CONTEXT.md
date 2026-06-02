@@ -52,7 +52,7 @@ Arduino Uno
 ├── FreeRoamRobot.ino       — setup() / loop()
 ├── Config.h                — all Arduino constants
 ├── SerialLink.h/.cpp       — Pi↔Arduino serial protocol
-├── FreeRoamFSM.h/.cpp      — command executor + slave timeout
+├── SlaveController.h/.cpp      — command executor + slave timeout
 ├── SkidSteerMotors.h/.cpp  — motor driver abstraction
 ├── TripleSonarArray.h/.cpp — non-blocking round-robin sonar
 ├── WaterPump.h             — pump on/off

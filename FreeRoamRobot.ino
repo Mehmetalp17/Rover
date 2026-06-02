@@ -17,28 +17,28 @@
 #include "WaterPump.h"
 #include "FlameSensor.h"
 #include "SerialLink.h"
-#include "FreeRoamFSM.h"
+#include "SlaveController.h"
 
 SkidSteerMotors  motors;
 TripleSonarArray sonar;
 WaterPump        pump;
 FlameSensor      flame;
 SerialLink       link;
-FreeRoamFSM      brain;
+SlaveController  controller;
 PiCommand        cmd;     // Pi'den gelen güncel komut
 
 void setup() {
-  link.begin();           // Serial.begin dahil
+  link.begin();                        // Serial.begin dahil
   motors.begin();
   sonar.begin();
   pump.begin();
   flame.begin();
-  brain.begin(&motors, &pump);   // sonar/flame Pi'ye raporlanır, Arduino karar vermez
+  controller.begin(&motors, &pump);    // sonar/flame Pi'ye raporlanır, Arduino karar vermez
 }
 
 void loop() {
   link.update(cmd);                                               // Pi komutlarını parse et
   sonar.update();                                                 // sonar round-robin
-  brain.update(cmd);                                              // free-roam veya slave
+  controller.update(cmd);                                         // komutu uygula, timeout kontrol
   link.reportSensors(sonar.left(), sonar.center(), sonar.right(), flame.raw()); // Pi'ye veri gönder
 }
