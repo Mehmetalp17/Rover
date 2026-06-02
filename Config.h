@@ -25,7 +25,8 @@ constexpr uint8_t PIN_ECHO_RIGHT  = A0;
 
 // ---- Yangın Misyonu Donanımı -------------------------------------------------------
 constexpr uint8_t PIN_WATER_PUMP = 7;   // R385 tetik (MOSFET/röle gate)
-constexpr uint8_t PIN_FLAME_AO   = A2;  // analog flame sensor (A0 sonarla çakışırdı)
+constexpr uint8_t PIN_FLAME_AO   = A2;  // flame sensor analog çıkış
+constexpr uint8_t PIN_FLAME_DO   = 3;   // flame sensor dijital çıkış (LOW = ateş var)
 // D0/D1 → Pi serial (boş bırak)
 
 // ---- Sonar Sınırı (cm) -------------------------------------------------------------

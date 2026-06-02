@@ -5,11 +5,15 @@
 #include <Arduino.h>
 #include "Config.h"
 
-// Analog flame sensor. Ateş varken analog değer düşer.
+// Flame sensor: AO analog ölçüm, DO dijital eşik çıkışı (LOW = ateş var).
 class FlameSensor {
 public:
-  void begin() { pinMode(PIN_FLAME_AO, INPUT); }
-  uint16_t raw() const { return analogRead(PIN_FLAME_AO); }
+  void begin() {
+    pinMode(PIN_FLAME_AO, INPUT);
+    pinMode(PIN_FLAME_DO, INPUT);
+  }
+  uint16_t raw()           const { return analogRead(PIN_FLAME_AO); }
+  bool     flameDetected() const { return digitalRead(PIN_FLAME_DO) == LOW; }
 };
 
 #endif
