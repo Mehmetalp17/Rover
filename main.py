@@ -2,8 +2,8 @@
 """
 Giriş noktası — Pi üzerinde çalıştır:
 
-  python fire_smoke_alert.py --source 0 --serial-port /dev/ttyUSB0 --no-gui
-  python fire_smoke_alert.py --source 0 --no-gui           # serial olmadan (test)
+  python main.py --source 0 --serial-port /dev/ttyUSB0 --no-gui
+  python main.py --source 0 --no-gui           # serial olmadan (test)
 
 Modüller:
   pi/config.py             — sabitler + log()

@@ -37,7 +37,7 @@ D0/D1         → Serial (Pi UART — leave free)
 
 ```
 Raspberry Pi
-├── fire_smoke_alert.py     — entry point, thread orchestration
+├── main.py                 — entry point, thread orchestration
 ├── pi/
 │   ├── config.py           — all Pi-side constants
 │   ├── model_utils.py      — YOLO model download/cache
