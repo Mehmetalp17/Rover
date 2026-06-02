@@ -25,13 +25,13 @@ void SkidSteerMotors::setSide(uint8_t lpwm, uint8_t rpwm, int speed) {
   int mag = speed < 0 ? -speed : speed;
   if (mag > 255) mag = 255;
   if (speed > 0) {
-    analogWrite(rpwm, (uint8_t)mag);
-    analogWrite(lpwm, 0);
-  } else if (speed < 0) {
-    analogWrite(rpwm, 0);
     analogWrite(lpwm, (uint8_t)mag);
-  } else {
     analogWrite(rpwm, 0);
+  } else if (speed < 0) {
     analogWrite(lpwm, 0);
+    analogWrite(rpwm, (uint8_t)mag);
+  } else {
+    analogWrite(lpwm, 0);
+    analogWrite(rpwm, 0);
   }
 }
